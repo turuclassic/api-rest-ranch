@@ -141,7 +141,7 @@ const list = async (req, res) => {
     
         let itemsPerPage = 5;
     
-        let totalUsers = await User.countDocuments();
+        let total = await User.countDocuments();
     
         let users = await User.find().select("-password -email -role -__v").sort("_id").paginate(page, itemsPerPage);
     
@@ -159,8 +159,8 @@ const list = async (req, res) => {
                 users,
                 page,
                 itemsPerPage,
-                totalUsers,
-                pages: Math.ceil(totalUsers / itemsPerPage),
+                total,
+                pages: Math.ceil(total / itemsPerPage),
                 user_following: followUserIds.following,
                 user_follow_me: followUserIds.followers
             });
