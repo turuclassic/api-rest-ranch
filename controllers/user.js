@@ -8,6 +8,7 @@ const followService = require("../services/followService");
 const mongoosePagination = require("mongoose-pagination");
 const fs = require("fs");
 const path = require("path");
+const validate = require("../helpers/validate");
 
 
 const register = (req, res) => {
@@ -20,6 +21,17 @@ const register = (req, res) => {
         });
     }
 
+    // Validacion avanzada
+    try{
+        validate(params);
+    }catch{
+        return res.status(400).json({
+            status: "error",
+            message: "Validacion no superada"
+            });
+        }
+    
+    // control usuarios duplicados
     User.find({
         $or: [
             { email: params.email.toLowerCase() },
